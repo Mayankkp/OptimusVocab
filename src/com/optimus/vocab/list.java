@@ -12,6 +12,8 @@ import android.R.xml;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,8 +62,20 @@ public class list extends BaseAdapter {
 		LayoutInflater infalInflater = (LayoutInflater) context
 		.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		arg1 = infalInflater.inflate(R.layout.list_item, null);
+		if(arg0<=Utilities.getTestLockLimit(context))
+		{
+			arg1.setBackgroundColor(context.getResources().getColor(R.color.OptionColor));
+		}
+		else {
+			{
+				arg1.setBackgroundColor(context.getResources().getColor(R.color.FalseColor));	
+			}
+		}
 		TextView textView=(TextView)arg1.findViewById(R.id.text_view);
-		textView.setText("Test"+(arg0+1));
+		TextView textViewDetail=(TextView)arg1.findViewById(R.id.text_view_detail);
+		textView.setTypeface(Utilities.getBoldTypeFace(this.context));
+		textViewDetail.setTypeface(Utilities.getMediumTypeFace(this.context));
+		textView.setText("Test "+(arg0+1));
 		return arg1;
 	}
 

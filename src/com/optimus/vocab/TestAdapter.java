@@ -1,13 +1,15 @@
 package com.optimus.vocab;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+import android.R.bool;
+import android.R.integer;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class TestAdapter {
 
@@ -47,18 +49,36 @@ public class TestAdapter {
 			Cursor cursor = this.mDb.rawQuery(selectQuery, null);
 			if (cursor.moveToFirst())
 				do {
-					ArrayList<String> list_inner = new ArrayList<String>();
 					Question question = new Question(cursor.getString(0),
 							cursor.getString(2), cursor.getString(3),
 							cursor.getString(4), cursor.getString(5),
-							cursor.getString(6), cursor.getString(7));
-					Log.d(TAG, question.getQuestion());
+							cursor.getString(6), cursor.getString(1));
+					Log.d(TestAdapter.TAG, question.getQuestion());
 					questions.add(question);
 				} while (cursor.moveToNext());
 		} catch (Exception e) {
 			Log.e("Error", "" + e.toString());
 		}
 		return questions;
+	}
+
+	
+	public ArrayList<TestStatus> getAllTests() {
+
+		ArrayList<TestStatus> tests = new ArrayList<TestStatus>();
+		String selectQuery = "SELECT  * FROM testStatus";
+		try {
+			Cursor cursor = this.mDb.rawQuery(selectQuery, null);
+			if (cursor.moveToFirst())
+				do {
+					TestStatus test = new TestStatus(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2), "Test " + cursor.getInt(2));
+					tests.add(test);
+				} while (cursor.moveToNext());
+		} catch (Exception e) {
+			Log.e("Error", "" + e.toString());
+			e.printStackTrace();
+		}
+		return tests;
 	}
 
 	public TestAdapter open() throws SQLException {
@@ -72,4 +92,23 @@ public class TestAdapter {
 		}
 		return this;
 	}
+	
+	
+	
+	public boolean initializeDatabase() {
+		try {
+		for(int i = 1 ; i < 170 ;i++){
+			String selectQuery = "insert into testStatus values ("+i+",0, 0);";
+			Log.d("Utilities",selectQuery);
+			this.mDb.execSQL(selectQuery);
+		}
+		}catch (Exception e) {
+			Log.e("Utilities", e.toString());
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+
 }

@@ -3,11 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:padding="20dp">
+    android:padding="5dp">
     
     <TextView android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:id="@+id/text_view"/>
 
+    
+     <TextView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:text="20 Questions"
+        android:id="@+id/text_view_detail"/>
+    
 </LinearLayout>
